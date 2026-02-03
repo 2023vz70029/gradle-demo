@@ -16,12 +16,16 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-        withSonarQubeEnv('SonarQube') { 
-            sh "./gradlew sonar"
-           }
-       }
-   } 
+    steps {
+        script {
+            def scannerHome = tool 'SonarScanner' 
+            
+            withSonarQubeEnv('SonarQube') {
+                sh "./gradlew sonar"
+            }
+        }
+    }
+}
 
         stage('Archive Artifact') {
             steps {
